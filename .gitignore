@@ -205,3 +205,6 @@ target/
 
 # ??? what is this folder
 outputs/
+
+# confix properties file for arguments in running confix.java
+confix/properties/confix.properties
