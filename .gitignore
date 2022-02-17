@@ -208,3 +208,4 @@ outputs/
 
 # confix properties file for arguments in running confix.java
 confix/properties/confix.properties
+confix/lib/confix-ami_torun.jar
