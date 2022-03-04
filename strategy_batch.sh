@@ -12,7 +12,7 @@ for patchStrategy in "flfreq" "tested-first" "noctx" "patch"; do
 
         now=$(date +"%c")
         echo "ConFix with patch strategy \"$patchStrategy\" and concretizaton strategy \"$concretizationStrategy\" run at time $now" >> different_strategy_batch.txt
-        python3 fix-target-integrated.py test.txt
+        python3 fix-target-integrated.py failed.txt
 
 	    # rm -rf target/batch_*
 
