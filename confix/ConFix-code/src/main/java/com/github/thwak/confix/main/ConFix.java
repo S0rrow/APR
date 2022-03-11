@@ -326,6 +326,19 @@ public class ConFix {
 				
 
 			} while (trial < maxTrials);
+			
+			// define the current return code
+			if(returnCode == Patcher.C_APPLIED) {
+				System.out.println("[Debug.log] : Patcher.C_APPLIED");
+			} else if(returnCode == Patcher.C_NO_FIXLOC) {
+				System.out.println("[Debug.log] : Patcher.C_NO_FIXLOC");
+			} else if(returnCode == Patcher.C_NOT_INST) {
+				System.out.println("[Debug.log] : Patcher.C_NOT_INST");
+			} else if(returnCode == Patcher.C_NOT_APPLIED) {
+				System.out.println("[Debug.log] : Patcher.C_NOT_APPLIED");
+			} else if(returnCode == Patcher.C_NO_CHANGE) {
+				System.out.println("[Debug.log] : Patcher.C_NO_CHANGE");
+			}
 
 			// 여기서 success 없애면 다른 change로도 계속해서 패치 생성 시도해볼 수 있음
 			if (success || terminate || returnCode == Patcher.C_NO_FIXLOC)

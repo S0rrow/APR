@@ -30,6 +30,7 @@ public class PatchInfo {
 			sb.append(",");
 			sb.append(str);
 		}
+		System.out.println("[Debug.log] : sb.substring(1) = "+sb.substring(1));
 		return sb.substring(1);
 	}
 }
