@@ -72,6 +72,8 @@ public class Change implements Serializable {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer("	Change Information: \n");
+		// DEBUG
+		System.out.println("[Debug.log] change type: "+type);
 		switch (type) {
 			case Change.INSERT:
 			case Change.DELETE:

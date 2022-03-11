@@ -125,6 +125,8 @@ public class Patcher {
 		int returnCode = -1;
 		switch (change.type) {
 			case Change.DELETE:
+				//DEBUG
+				System.out.println("[Debug.log] switch on case Change.DELETE, line 129 of Patcher.java");
 				String editHash = TreeUtils.getTypeHash(change.node);
 				String locHash = TreeUtils.getTypeHash(loc.node);
 				if (editHash.equals(locHash)) {
@@ -133,9 +135,13 @@ public class Patcher {
 					info.repairs.add(repair);
 					returnCode = C_APPLIED;
 				} else {
-
 					returnCode = C_NOT_APPLIED;
 				}
+				//DEBUG
+				System.out.println("[Debug.log] editHash equals locHash ? : "+editHash.equals(locHash));
+				System.out.println("[Debug.log] editHash : "+editHash);
+				System.out.println("[Debug.log] locHash : "+locHash);
+				System.out.println("[Debug.log] returnCode = "+returnCode);
 				break;
 			case Change.INSERT:
 				if (cStrategy.instCheck(change, loc) && change.node.desc != null) {

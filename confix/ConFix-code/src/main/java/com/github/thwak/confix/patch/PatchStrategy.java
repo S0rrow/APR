@@ -324,6 +324,7 @@ public class PatchStrategy {
 						}
 						break;
 					case Change.DELETE:
+						System.out.println("[Debug.log] empty switch case script on Change.DELETE?");
 					case Change.MOVE:
 						if (c.node.hashString.equals(loc.node.hashString) && c.node.kind == loc.node.kind)
 							candidates.add(id);

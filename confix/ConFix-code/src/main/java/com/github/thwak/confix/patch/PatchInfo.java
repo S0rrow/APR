@@ -24,13 +24,19 @@ public class PatchInfo {
 	}
 
 	public String getConcretize() {
-		System.out.println("Debug.log: PatchInfo.getConcretize()");
+		System.out.println("[Debug.log]: line 27 of PatchInfo, getConcretize()");
 		StringBuffer sb = new StringBuffer();
+		//DEBUG
+		if(cMethods.size() <= 0) return "ERROR:empty_hashset";
 		for(String str : cMethods) {
 			sb.append(",");
 			sb.append(str);
 		}
-		System.out.println("[Debug.log] : sb.substring(1) = "+sb.substring(1));
+		try {
+			System.out.println("[Debug.log] : sb.substring(1) = "+sb.substring(1));
+		} catch(Exception e){
+			System.out.println("[Debug.log] Exception e = "+e);
+		}
 		return sb.substring(1);
 	}
 }

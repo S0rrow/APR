@@ -213,7 +213,7 @@ public class ConFix {
 					System.out.println("Applied Change");
 					System.out.println(change);
 					System.out.println("Applied new code");
-					// System.out.println(info.repairs.get(0).newCode);
+					if(info.repairs.size() > 0) System.out.println(info.repairs.get(0).newCode);
 					System.out.println("Return Code");
 					System.out.println(returnCode);
 				} catch (Exception e) {
