@@ -370,11 +370,13 @@ public class PatchStrategy {
 	}
 
 	public String getCurrentClass() {
+		System.out.println("[Debug.log] line 373 of PatchStrategy.java : getCurrentClass() returns : "+currLineIndex >= 0 && currLineIndex < coveredLines.size() ? coveredLines.get(currLineIndex).className : "");
 		return currLineIndex >= 0 && currLineIndex < coveredLines.size() ? coveredLines.get(currLineIndex).className
 				: "";
 	}
 
 	public Patcher patcher() {
+		System.out.println("[Debug.log] line 379 of PatchStrategy.java : patcher() executed");
 		return patcherMap.get(getCurrentClass());
 	}
 

@@ -159,8 +159,10 @@ public class ConFix {
 
 			// ======= STEP 2-2. Create Patcher ======= //
 			System.out.println("\n// ======= STEP 2-2. Create Patcher ======= //");
+			System.out.println("[Debug.log] maven clean package checkout : ok");
 			patcher = pStrategy.patcher();
 			if (patcher == null){
+				System.out.println("[Debug.log] line 164 of ConFix.java : patcher == null");
 				// randomSeed = setRandomSeed(setTimer());
 				// if (flMetric.compareTo("perfect") == 0) {
 				// 	pStrategy = StrategyFactory.getPatchStrategy(pStrategyKey, coverage, pool, randomSeed, flMetric,

@@ -27,7 +27,7 @@ public class PatchInfo {
 		System.out.println("[Debug.log]: line 27 of PatchInfo, getConcretize()");
 		StringBuffer sb = new StringBuffer();
 		//DEBUG
-		if(cMethods.size() <= 0) return "ERROR:empty_hashset";
+		if(cMethods.size() <= 0) return "ERROR:empty_hashset";//Fix
 		for(String str : cMethods) {
 			sb.append(",");
 			sb.append(str);
