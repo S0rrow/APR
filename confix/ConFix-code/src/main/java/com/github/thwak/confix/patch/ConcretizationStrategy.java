@@ -63,7 +63,7 @@ public class ConcretizationStrategy {
 	public int simpleNameListIndex;
 
 	public ConcretizationStrategy(Random r) {
-		System.out.println("========== Debug.log: ConcretizationStrategy instantiated ==========\n\n");
+		System.out.println("[Debug.log] line 66 of ConcretizationStrategy.java : ConcretizationStrategy instantiated");
 		global = new Materials();
 		materials = new Materials();
 		this.r = r;

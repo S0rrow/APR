@@ -42,7 +42,7 @@ public class NoContextPatchStrategy extends PatchStrategy {
 				locations.clear();
 				CoveredLine cl = coveredLines.get(currLineIndex);
 				if (!patcherMap.containsKey(cl.className)) {
-					System.out.println("Loading Class - " + cl.className);
+					System.out.println("[Debug.log] line 45 of NoContextPatchStrategy.java : Loading Class - " + cl.className);
 					String source = PatchUtils.loadSource(sourceDir, cl.className);
 					ConcretizationStrategy cStrategy = StrategyFactory.getConcretizationStrategy(cStrategyKey, manager,
 							cl.className, sourceDir, r);
@@ -62,6 +62,8 @@ public class NoContextPatchStrategy extends PatchStrategy {
 
 	@Override
 	public Change selectChange() {
+		System.out.println("[Debug.log] line 65 of NoContextPatchStrategy.java : selectChange() currLocIndex = "+currLocIndex);
+		System.out.println("[Debug.log] line 66 of NoContextPatchStrategy.java : selectChange() locations.size() = "+locations.size());
 		if (currLocIndex < locations.size()) {
 			LocEntry e = locations.get(currLocIndex);
 			//System.out.println("change ids: " + (e.changeIds == null));

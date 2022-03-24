@@ -133,7 +133,7 @@ public class ConFix {
 		}
 		pStrategy.finishUpdate();
 		IOUtils.storeContent("coveredlines.txt", pStrategy.getLineInfo());
-
+		System.out.println("[Debug.log] line 136 of ConFix.java : patch strategy update finished");
 		//요기서 타겟 코드 안에 있는 모든 variable declaration 찾아서 type과 mapping 시켜놓기
 		
 
@@ -149,6 +149,8 @@ public class ConFix {
 			TargetLocation loc = pStrategy.selectLocation();
 			targetClass = loc == null ? "" : loc.className;
 			currentLocKey = pStrategy.getCurrentLocKey();
+			System.out.println("[Debug.log] line 152 of ConFix.java : oldLocKey = "+oldLocKey);
+			System.out.println("[Debug.log] line 153 of ConFix.java : currentLocKey = "+currentLocKey);
 			if (!oldLocKey.equals(currentLocKey)) {
 				oldLocKey = currentLocKey;
 				locNum++;
@@ -159,7 +161,7 @@ public class ConFix {
 
 			// ======= STEP 2-2. Create Patcher ======= //
 			System.out.println("\n// ======= STEP 2-2. Create Patcher ======= //");
-			System.out.println("[Debug.log] maven clean package checkout : ok");
+			System.out.println("[Debug.log] line 162 of ConFix.java : maven clean package checkout : ok");
 			patcher = pStrategy.patcher();
 			if (patcher == null){
 				System.out.println("[Debug.log] line 164 of ConFix.java : patcher == null");
@@ -421,7 +423,7 @@ public class ConFix {
 		pool = changePoolGenerator.pool;
 		pool.poolName = "SimFinPool";
 		pool.maxLoadCount = maxPoolLoad;
-		System.out.println("Pool Generation Done.");
+		System.out.println("[Debug.log] line 426 of ConFix.java : Pool Generation Done.");
 	}
 
 	private static void storePatchInfo(int totalCandidateNum, int totalCompileError, int totalTestFailure,

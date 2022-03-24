@@ -32,6 +32,11 @@ public class TestedFirstPatchStrategy extends FLFreqPatchStrategy {
 	}
 
 	public TestedFirstPatchStrategy(CoverageManager manager, ChangePool pool, ContextIdentifier collector, Random r,
+			String flMetric, String cStrategyKey, String sourceDir, String[] compileClassPathEntries, String pFaultyClass, int pFaultyLine) {
+		this(manager, pool, collector, r, flMetric, cStrategyKey, sourceDir, compileClassPathEntries, new HashMap<String, Integer>(), pFaultyClass, pFaultyLine);
+	}
+
+	public TestedFirstPatchStrategy(CoverageManager manager, ChangePool pool, ContextIdentifier collector, Random r,
 			String flMetric, String cStrategyKey, String sourceDir, String[] compileClassPathEntries, Map<String, Integer> testClasses) {
 		super();
 		this.r = r;
@@ -53,6 +58,28 @@ public class TestedFirstPatchStrategy extends FLFreqPatchStrategy {
 		prioritizeCoveredLines();
 	}
 
+	public TestedFirstPatchStrategy(CoverageManager manager, ChangePool pool, ContextIdentifier collector, Random r,
+			String flMetric, String cStrategyKey, String sourceDir, String[] compileClassPathEntries, Map<String, Integer> testClasses, String pFaultyClass, int pFaultyLine) {
+		super();
+		this.r = r;
+		this.manager = manager;
+		this.pool = pool;
+		this.collector = collector;
+		this.locations = new ArrayList<>();
+		coveredLines = new IndexMap<>();
+		lineLocMap = new HashMap<>();
+		patcherMap = new HashMap<>();
+		this.flMetric = flMetric;
+		this.cStrategyKey = cStrategyKey;
+		this.sourceDir = sourceDir;
+		this.compileClassPathEntries = compileClassPathEntries;
+		this.testClasses = testClasses;
+		if(testClasses.size() == 0) {
+			loadTests();
+		}
+		perfectFlTargetLine(pFaultyClass, pFaultyLine);
+	}
+
 	private void loadTests() {
 		String s = IOUtils.readFile("tests.trigger");
 		String[] tests = s.split("\n");
@@ -69,6 +96,7 @@ public class TestedFirstPatchStrategy extends FLFreqPatchStrategy {
 
 	@Override
 	protected void prioritizeCoveredLines() {
+		System.out.println("[Debug.log] line 72 of TestedFirstPatchStrategy.java: prioritizeCoveredLines()");
 		Set<String> targetClasses = manager.getNegCoveredClasses();
 		List<String> classes = findSuspiciousClasses(testClasses, targetClasses);
 		targetClasses.removeAll(classes);

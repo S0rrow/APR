@@ -69,16 +69,16 @@ public class ChangePoolGenerator {
 
 	public void collect(List<File> bugFiles, List<File> cleanFiles, String[] compileClassPathEntries, String[] sourcePath) {
 
-		System.out.println("bugFiles size: "+bugFiles.size());
-		System.out.println("cleanFiles size: "+cleanFiles.size());
+		System.out.println("[Debug.log] line 72 of ChangePoolGenerator.java: bugFiles size: "+bugFiles.size());
+		System.out.println("[Debug.log] line 73 of ChangePoolGenerator.java: cleanFiles size: "+cleanFiles.size());
 		try {
 			for (int i = 0; i < bugFiles.size(); i++) {
 
 				if(bugFiles.get(i) == null || cleanFiles.get(i) == null)
 					continue;
 
-				System.out.println("buggy file : "+bugFiles.get(i).getName());
-				System.out.println("clean file : "+cleanFiles.get(i).getName());
+				System.out.println("[Debug.log] line 80 of ChangePoolGenerator.java: buggy file : "+bugFiles.get(i).getName());
+				System.out.println("[Debug.log] line 81 of ChangePoolGenerator.java: clean file : "+cleanFiles.get(i).getName());
 
 				// Generate EditScript from before and after.
 				String oldCode = IOUtils.readFile(bugFiles.get(i));

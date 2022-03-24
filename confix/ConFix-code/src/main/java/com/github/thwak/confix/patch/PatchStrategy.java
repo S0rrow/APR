@@ -91,7 +91,7 @@ public class PatchStrategy {
 
 	protected void perfectFlTargetLine(String pFaultyClass, int pFaultyLine) {
 		CoveredLine coveredline = new CoveredLine(pFaultyClass, pFaultyLine);
-		System.out.println("Covered line added with class name: "+ pFaultyClass) ;
+		System.out.println("[Debug.log] line 94 of PatchStrategy.java : Covered line added with class name: "+ pFaultyClass) ;
 		this.coveredLines.add(coveredline);
 	}
 
@@ -99,6 +99,7 @@ public class PatchStrategy {
 		List<CoveredLine> lines = this.manager.computeScore(flMetric);
 		for (CoveredLine cl : lines) {
 			if (Double.compare(cl.score, 0.0000d) > 0) {
+				System.out.println("[Debug.log] line 102 of PatchStrategy.java : Covered line added with class name: "+ cl.className);
 				coveredLines.add(cl);
 			}
 		}
@@ -208,14 +209,16 @@ public class PatchStrategy {
 
 	public TargetLocation nextLocation() {
 		if (currLocIndex < locations.size()) {
+			System.out.println("[Debug.log] line 212 of PatchStrategy.java : case if");
 			LocEntry e = locations.get(currLocIndex);
 			return e.loc;
 		} else {
+			System.out.println("[Debug.log] line 216 of PatchStrategy.java : case else");
 			if (++currLineIndex < coveredLines.size()) {
 				locations.clear();
 				CoveredLine cl = coveredLines.get(currLineIndex);
 				if (!patcherMap.containsKey(cl.className)) {
-					System.out.println("Loading Class - " + cl.className);
+					System.out.println("[Debug.log] line 218 of PatchStrategy.java : Loading Class - " + cl.className);
 					String source = PatchUtils.loadSource(sourceDir, cl.className);
 					ConcretizationStrategy cStrategy = StrategyFactory.getConcretizationStrategy(cStrategyKey, manager,
 							cl.className, sourceDir, r);
@@ -234,7 +237,8 @@ public class PatchStrategy {
 	}
 
 	public TargetLocation selectLocation() {
-		System.out.println("Check if contains key"); // DEBUG
+		System.out.println("[Debug.log] line 240 of PatchStrategy.java : selectLocation()"); // DEBUG
+		System.out.println("[Debug.log] line 241 of PatchStrategy.java : currLocIndex < locations.size() = "+(currLocIndex < locations.size()));
 		if (currLocIndex < locations.size()) {
 			LocEntry e = locations.get(currLocIndex);
 			// TE
@@ -249,15 +253,18 @@ public class PatchStrategy {
 			}
 			return e.loc;
 		} else {
+			System.out.println("[Debug.log] line 256 of PatchStrategy.java : currLineIndex = "+currLineIndex);
+			System.out.println("[Debug.log] line 257 of PatchStrategy.java : coveredLines.size() = "+coveredLines.size());
+			System.out.println("[Debug.log] line 258 of PatchStrategy.java : ++currLineIndex < coveredLines.size() = "+((1+currLineIndex) < coveredLines.size()));
 			if (++currLineIndex < coveredLines.size()) {
 				locations.clear();
 				CoveredLine cl = coveredLines.get(currLineIndex);
 				if (!patcherMap.containsKey(cl.className)) {
-					System.out.println("Loading Class - " + cl.className);
+					System.out.println("[Debug.log] line 263 of PatchStrategy.java : Loading Class - " + cl.className);
 					String source = PatchUtils.loadSource(sourceDir, cl.className);
-					System.out.println("cKey- " + cStrategyKey);
-					System.out.println("sourceDir- " + sourceDir);
-					System.out.println("source- " + source);
+					System.out.println("[Debug.log] line 265 of PatchStrategy.java : cKey- " + cStrategyKey);
+					System.out.println("[Debug.log] line 266 of PatchStrategy.java : sourceDir- " + sourceDir);
+					System.out.println("[Debug.log] line 267 of PatchStrategy.java : source- " + source);
 					ConcretizationStrategy cStrategy = StrategyFactory.getConcretizationStrategy(cStrategyKey, manager,
 							cl.className, sourceDir, r);
 					Patcher patcher = new Patcher(cl.className, source, compileClassPathEntries,
@@ -295,10 +302,8 @@ public class PatchStrategy {
 				}
 				switch (c.type) {
 					case Change.UPDATE:
-						System.out.println(" ==== node hash ==== ");
-						System.out.println(c.node.hashString);
-						System.out.println(" ==== loc hash ==== ");
-						System.out.println(loc.node.hashString);
+						System.out.println("[Debug.log] line 301 of PatchStrategy.java : node hash = "+c.node.hashString);
+						System.out.println("[Debug.log] line 302 of PatchStrategy.java : location hash = "+loc.node.hashString);
 						// 2021.03.19 Jeon, No comparison of hashString
 						if(true){
 						// if (c.node.hashString.equals(loc.node.hashString)) {
@@ -324,7 +329,7 @@ public class PatchStrategy {
 						}
 						break;
 					case Change.DELETE:
-						System.out.println("[Debug.log] empty switch case script on Change.DELETE?");
+						System.out.println("[Debug.log] line 328 of PatchStrategy.java : empty switch case script on Change.DELETE?");
 					case Change.MOVE:
 						if (c.node.hashString.equals(loc.node.hashString) && c.node.kind == loc.node.kind)
 							candidates.add(id);
@@ -357,6 +362,8 @@ public class PatchStrategy {
 	}
 
 	public Change selectChange() {
+		System.out.println("[Debug.log] line 361 of PatchStrategy.java : selectChange() currLocIndex = "+currLocIndex);
+		System.out.println("[Debug.log] line 362 of PatchStrategy.java : selectChange() locations.size() = "+locations.size());
 		if (currLocIndex < locations.size()) {
 			LocEntry e = locations.get(currLocIndex);
 			Change c = e.changeIds != null && e.changeIds.size() > 0 ? pool.getChange(e.changeIds.remove(0)) : null;
@@ -370,13 +377,24 @@ public class PatchStrategy {
 	}
 
 	public String getCurrentClass() {
-		System.out.println("[Debug.log] line 373 of PatchStrategy.java : getCurrentClass() returns : "+currLineIndex >= 0 && currLineIndex < coveredLines.size() ? coveredLines.get(currLineIndex).className : "");
-		return currLineIndex >= 0 && currLineIndex < coveredLines.size() ? coveredLines.get(currLineIndex).className
-				: "";
+		System.out.println("[Debug.log] line 374 of PatchStrategy.java : currLineIndex = "+currLineIndex);
+		System.out.println("[Debug.log] line 375 of PatchStrategy.java : coveredLines.size() = "+coveredLines.size());
+		try{
+			for(CoveredLine cl : coveredLines.values()){
+				System.out.println("[Debug.log] line 378 of PatchStrategy.java : listing the coveredlines: "+cl.className);
+			}
+			System.out.println("[Debug.log] line 380 of PatchStrategy.java : coveredLines.get(currLineIndex).className = "+coveredLines.get(currLineIndex).className);
+		} catch(Exception e){
+			System.out.println("[Debug.log] line 382 of PatchStrategy.java : Exception on coveredLines.get(currLineIndex).className");
+		}
+		
+		return currLineIndex >= 0 && currLineIndex < coveredLines.size() ? coveredLines.get(currLineIndex).className : "";
+		//System.out.println("[Debug.log] line 386 of PatchStrategy.java : [!!! WARNING !!!] forced return of getCurrentClass() ");
+		//return coveredLines.get(0).className;
 	}
 
 	public Patcher patcher() {
-		System.out.println("[Debug.log] line 379 of PatchStrategy.java : patcher() executed");
+		System.out.println("[Debug.log] line 391 of PatchStrategy.java : patcher() executed");
 		return patcherMap.get(getCurrentClass());
 	}
 

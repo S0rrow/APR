@@ -37,6 +37,13 @@ public class FLFreqPatchStrategy extends PatchStrategy {
 		super(manager, pool, collector, r, flMetric, cStrategyKey, sourceDir, compileClassPathEntries);
 	}
 
+	public FLFreqPatchStrategy(CoverageManager manager, ChangePool pool, ContextIdentifier collector, Random r,
+			String flMetric, String cStrategyKey, String sourceDir, String[] compileClassPathEntries,
+			String pFaultyClass, int pFaultyLine) {
+		super(manager, pool, collector, r, flMetric, cStrategyKey, sourceDir, compileClassPathEntries, pFaultyClass,
+				pFaultyLine);
+	}
+
 	@Override
 	protected void prioritizeCoveredLines() {
 		List<CoveredLine> lines = this.manager.computeScore(flMetric);

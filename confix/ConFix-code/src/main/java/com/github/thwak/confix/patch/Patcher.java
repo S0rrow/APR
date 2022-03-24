@@ -126,7 +126,7 @@ public class Patcher {
 		switch (change.type) {
 			case Change.DELETE:
 				//DEBUG
-				System.out.println("[Debug.log] switch on case Change.DELETE, line 129 of Patcher.java");
+				System.out.println("[Debug.log] line 129 of Patcher.java : switch on case Change.DELETE");
 				String editHash = TreeUtils.getTypeHash(change.node);
 				String locHash = TreeUtils.getTypeHash(loc.node);
 				if (editHash.equals(locHash)) {
