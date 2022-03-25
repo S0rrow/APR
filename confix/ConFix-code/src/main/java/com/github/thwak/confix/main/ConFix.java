@@ -706,15 +706,15 @@ public class ConFix {
 		pStrategyKey = PatchUtils.getStringProperty(props, "patch.strategy", "flfreq");
 		cStrategyKey = PatchUtils.getStringProperty(props, "concretize.strategy", "tc");
 		flMetric = PatchUtils.getStringProperty(props, "fl.metric", "ochiai");
-
+		System.out.println("[Debug.log] line 709 of ConFix.java : fl.metric = " + flMetric);
 		poolSource = PatchUtils.getStringProperty(props, "pool.source", "default");
 		projectName = PatchUtils.getStringProperty(props, "projectName", "Closure");
 		bugId = PatchUtils.getStringProperty(props, "bugId", "3");
 		pFaultyLine = Integer.parseInt(PatchUtils.getStringProperty(props, "pFaultyLine", "1"));
 		pFaultyClass = PatchUtils.getStringProperty(props, "pFaultyClass", "");
-		System.out.println("pFaultyClass as it is: " + pFaultyClass);
+		System.out.println("[Debug.log] line 715 of ConFix.java : original pFaultyClass = " + pFaultyClass);
 		pFaultyClass = pFaultyClass.replace(sourceDir.replaceAll("/", ".") + ".", "");
-		System.out.println("pFaultyClass after replacing is: " + pFaultyClass);
+		System.out.println("[Debug.log] line 717 of ConFix.java : replaced pFaultyClass = " + pFaultyClass);
 		createFileLists(projectName);
 	}
 
