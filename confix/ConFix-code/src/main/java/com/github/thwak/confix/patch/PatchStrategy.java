@@ -238,7 +238,7 @@ public class PatchStrategy {
 
 	public TargetLocation selectLocation() {
 		System.out.println("[Debug.log] line 240 of PatchStrategy.java : selectLocation()"); // DEBUG
-		System.out.println("[Debug.log] line 241 of PatchStrategy.java : currLocIndex < locations.size() = "+(currLocIndex < locations.size()));
+		System.out.println("[Debug.log] line 241 of PatchStrategy.java : currLocIndex < locations.size() = "+(currLocIndex < locations.size())+"\n[Debug.log] line 241 of PatchStrategy.java : currLocIndex = "+currLocIndex+"\n[Debug.log] line 241 of PatchStrategy.java : locations.size() = "+locations.size());
 		if (currLocIndex < locations.size()) {
 			LocEntry e = locations.get(currLocIndex);
 			// TE

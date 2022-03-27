@@ -77,7 +77,7 @@ def main(args):
     whole_start = dt.datetime.now()
     
 
-    os.system("cd ./confix/ConFix-code; mvn clean package; cp target/confix-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/codemodel/hans/APR/confix/lib/confix-ami_torun.jar")
+    os.system("cd ./confix/ConFix-code; mvn clean package; cp target/confix-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/codemodel/leshen/APR/confix/lib/confix-ami_torun.jar")
 
     bugs = []
     successes, fails = 0, 0

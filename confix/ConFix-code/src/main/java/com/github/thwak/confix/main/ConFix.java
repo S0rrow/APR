@@ -212,13 +212,12 @@ public class ConFix {
 				try {
 					returnCode = patcher.apply(loc, change, info);
 					//TE
-					System.out.println("Fix Location");
-					System.out.println(loc);
-					System.out.println("Applied Change");
+					System.out.println("[Debug.log] line 215 of ConFix.java : Fix Location : "+loc);
+					System.out.println("[Debug.log] line 216 of ConFix.java : Applied Change : ");
 					System.out.println(change);
-					System.out.println("Applied new code");
+					System.out.println("[Debug.log] line 218 of ConFix.java : Applied new code");
 					if(info.repairs.size() > 0) System.out.println(info.repairs.get(0).newCode);
-					System.out.println("Return Code");
+					System.out.println("[Debug.log] line 220 of ConFix.java : Return Code");
 					System.out.println(returnCode);
 				} catch (Exception e) {
 					if (DEBUG) {
@@ -665,6 +664,7 @@ public class ConFix {
 	}
 
 	private static void loadProperties(String fileName) {
+		System.out.println("[Debug.log] line 667 of ConFix.java : loading confix.properties ...");
 		Properties props = new Properties();
 		File f = new File(fileName);
 		try {
