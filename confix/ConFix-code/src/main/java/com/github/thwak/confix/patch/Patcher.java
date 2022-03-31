@@ -161,8 +161,10 @@ public class Patcher {
 					}
 					//TE 여기서 instantiate를 통해 실제로 노드를 만들어서 삽입하는 듯
 					ASTNode astNode = cStrategy.instantiate(change, loc, info);
-					if (astNode == null)
+					if (astNode == null) {
+						System.out.println("[Debug.log] line 165 of Patcher.java : concretization strategy failed to instantiate astNode on designated location");
 						return C_NOT_INST;
+					}	
 					insert(loc, astNode, descriptor);
 					RepairAction repair = new RepairAction(Change.INSERT, loc, "", astNode.toString(), change);
 					info.repairs.add(repair);
@@ -170,9 +172,11 @@ public class Patcher {
 				} else {
 					returnCode = C_NOT_APPLIED;
 				}
+				if(returnCode==C_APPLIED) System.out.println("[Debug.log] line 175 of Patcher.java : return code = C_APPLIED");
+				if(returnCode==C_NOT_APPLIED) System.out.println("[Debug.log] line 176 of Patcher.java : return code = C_NOT_APPLIED");
 				break;
 			case Change.UPDATE:
-				System.out.print("Operation UPDATE"); // DEBUG
+				System.out.print("[Debug.log] line 179 of Patcher.java : executing UPDATE"); // DEBUG
 				System.out.println("instCheck: " + cStrategy.instCheck(change, loc)); // DEBUG
 				if (cStrategy.instCheck(change, loc)) {
 					System.out.println(" - start instantiating");
@@ -185,7 +189,7 @@ public class Patcher {
 					update(loc, astNode); // 2
 					info.repairs.add(repair);
 					returnCode = C_APPLIED;
-					System.out.println("Applied"); // DEBUG
+					System.out.println("[Debug.log] line 192 of Patcher.java : repair applied on case update"); // DEBUG
 				} else {
 					returnCode = C_NOT_APPLIED;
 					System.out.println("NOT Applied"); // DEBUG
@@ -218,6 +222,7 @@ public class Patcher {
 					replace(loc, astNode);
 					info.repairs.add(repair);
 					returnCode = C_APPLIED;
+					System.out.println("[Debug.log] line 225 of Patcher.java : repair applied on case replace");
 				} else {
 					returnCode = C_NOT_APPLIED;
 				}
@@ -241,9 +246,9 @@ public class Patcher {
 		ListRewrite lrw = rewrite.getListRewrite(cu, CompilationUnit.IMPORTS_PROPERTY);
 		AST ast = cu.getAST();
 		int counter = 0; // DEBUG
-		if(importNames.size() <= 0) System.out.println("Debug.log : importNames length = 0");
+		if(importNames.size() <= 0) System.out.println("[Debug.log] line 248 of Patcher.java : importNames.size() = "+importNames.size());
 		for (String importName : importNames) {
-			System.out.println("======= Debug.log : import name #"+counter+" :: "+importName+" =======\n\n");
+			System.out.println("[Debug.log] line 250 of Patcher.java : import name #"+counter+" :: "+importName);
 			ImportDeclaration decl = ast.newImportDeclaration();
 			decl.setName(ast.newName(importName));
 			lrw.insertLast(decl, null);
@@ -254,9 +259,9 @@ public class Patcher {
 	private Set<String> getImportNames(Set<String> imports, List<ImportDeclaration> importDecls) {
 		HashSet<String> importNames = new HashSet<>(imports);
 		int count = 0;
-		if(importNames.size() <= 0) System.out.println("Debug.log : importNames length = 0");
+		if(importNames.size() <= 0) System.out.println("[Debug.log] line 261 of Patcher.java : importNames.size() = "+importNames.size());
 		for (ImportDeclaration importDecl : importDecls) {
-			System.out.println("======= Debug.log : getImport name #"+count+" :: "+importDecl.getName()+" =======\n\n");
+			System.out.println("[Debug.log] line 263 of Patcher.java : getImport name #"+count+" :: "+importDecl.getName());
 			importNames.remove(importDecl.getName().getFullyQualifiedName());
 			count++;
 		}
@@ -287,6 +292,7 @@ public class Patcher {
 	}
 
 	private void insert(TargetLocation loc, ASTNode astNode, StructuralPropertyDescriptor descriptor) {
+		System.out.println("[Debug.log] line 294 of Patcher.java : inserting astNode on designated location");
 		ASTNode parent = loc.node.astNode.getParent();
 		if (descriptor.isChildListProperty()) {
 			// Handling implicit ExpressionStatement.

@@ -176,7 +176,7 @@ public class ConcretizationStrategy {
 				IVariableBinding vb = vdf.resolveBinding();
 				// If it is a local variable declaration.
 				if (Materials.isLocal(vb)) {
-					System.out.println("=========== Debug.log: if it is a local variable declaration ===========\n\n");
+					System.out.println("[Debug.log] line 179 of ConcretizationStrategy.java : if it is a local variable declaration");
 					ITypeBinding tb = vb.getType();
 					VariableType type = MVTManager.generateType(tb);
 					String varName = vdf.getName().getIdentifier();
@@ -382,12 +382,12 @@ public class ConcretizationStrategy {
 	 */
 	public boolean instCheck(Change change, TargetLocation loc) {
 		// DEBUG
-		System.out.println("\n		===== instCheck Begins =====");
-		System.out.println("1	" + change.toString());
-		System.out.println("2	" + loc.toString());
+		System.out.println("[Debug.log] line 385 of ConcretizationStrategy.java : instCheck initiated");
+		System.out.println("[Debug.log] line 386 of ConcretizationStrategy.java : chage = "+change.toString());
+		System.out.println("[Debug.log] line 387 of ConcretizationStrategy.java : loc = "+loc.toString());
 
 		if (change.type.equals(Change.UPDATE) && change.node.type == loc.node.type && change.node.children.size() > 0) {
-			System.out.println("======== change.type.equals(Change.UPDATE) && change.node.type == loc.node.type && change.node.children.size() > 0 = TRUE =========\n\n");
+			System.out.println("[Debug.log] line 390 of ConcretizationStrategy.java : change.type.equals(Change.UPDATE) && change.node.type == loc.node.type && change.node.children.size() > 0 = TRUE =========\n\n");
 			if (change.node.hashString == null) {
 				change.node.hashString = TreeUtils.getTypeHash(change.node);
 			}
@@ -395,8 +395,8 @@ public class ConcretizationStrategy {
 				loc.node.hashString = TreeUtils.getTypeHash(loc.node);
 			}
 			// 2021.03.22 Jeon commented out hashStrting comparison
-			// return change.node.hashString.equals(loc.node.hashString);
-			return true;
+			return change.node.hashString.equals(loc.node.hashString);
+			//return true;
 		}
 		Requirements reqs = change.requirements;
 
@@ -520,7 +520,7 @@ public class ConcretizationStrategy {
 		// If the change is an update in intermediate node,
 		// copy all values from loc except for updated value.
 		if (c.type.equals(Change.UPDATE) && c.node.children.size() > 0) {
-			System.out.println("[Debug.log]: updateIntermediate on line 522 of cStrategy");
+			System.out.println("[Debug.log] line 523 of cStrategy : updateIntermediate");
 			return updateIntermediate(c, loc);
 		}
 
@@ -535,7 +535,7 @@ public class ConcretizationStrategy {
 		// if(ConFix.JCDEBUG)
 		// 	System.out.println("**JC-DEBUG: reqs.methods.size()" +reqs.methods.size());
 		if (reqs.methods.size() > 0) {
-		System.out.println("\n[Debug.log]: Instantiate Method");
+		System.out.println("\n[Debug.log] line 538 of ConcretizationStrategy.java : Instantiate Method");
 			
 			if (c.type.equals(Change.UPDATE) && c.node.type == loc.node.type && c.node.kind == loc.node.kind) {
 				for (Set<Method> cMethods : reqs.methods.values()) {
@@ -640,7 +640,7 @@ public class ConcretizationStrategy {
 
 		// For variable updates, match variable types.
 		if (c.type.equals(Change.UPDATE) && c.node.kind == Node.K_VARIABLE) {
-			System.out.println("\n[Debug.log]: Assign Variable");
+			System.out.println("\n[Debug.log] line 643 of ConcretizationStrategy.java : Assign Variable");
 			if (c.requirements.variables.size() == 1) {
 				VariableType t = (VariableType) c.requirements.variables.keySet().toArray()[0];
 				if (!t.isJSL) {
@@ -659,23 +659,21 @@ public class ConcretizationStrategy {
 		// Assign types.
 		VariableType t = null;
 		if (c.type.equals(Change.UPDATE) && c.node.type == loc.node.type && c.node.kind == Node.K_TYPE) {
-			System.out.println("\n[Debug.log]: Assign Type");
+			System.out.println("\n[Debug.log] line 662 of ConcretizationStrategy.java : Assign Type");
 			t = MVTManager.generateType(loc.getType());
 		}
 		if (!assignTypes(typeMap, reqs, materials, false, t)) {
-			if (DEBUG)
-				System.out.println("Not enough types to assign.");
+			System.out.println("[Debug.log] line 667 of ConcretizationStrategy.java : Not enough types to assign.");
 			return null;
 		}
 
 		if (!assignTypes(typeMap, reqs, materials, true, t)) {
-			if (DEBUG)
-				System.out.println("Not enough generic types to assign.");
+			System.out.println("[Debug.log] line 671 of ConcretizationStrategy.java : Not enough generic types to assign.");
 			return null;
 		}
 
 		if (c.type.equals(Change.REPLACE)) {
-			System.out.println("replace!!!");
+			System.out.println("[Debug.log] line 676 of ConcretizationStrategy.java : change case replace");
 			// In case of replace, keep declared variable names unchanged.
 			List<Node> locNodes = TreeUtils.traverse(loc.node);
 			List<Node> cNodes = TreeUtils.traverse(c.node);
@@ -816,7 +814,7 @@ public class ConcretizationStrategy {
 
 		// Other variables.
 		if (reqs.variables.size() > 0) {
-			System.out.println("Other Varialbles");
+			System.out.println("[Debug.log] line 819 of ConcretizationStrategy.java : Other Varialbles");
 			if (c.type.equals(Change.UPDATE) && c.node.type == loc.node.type && c.node.kind == loc.node.kind) {
 				String oldName = loc.node.value;
 				VariableType type = MVTManager.generateType(loc.getType());
@@ -834,14 +832,14 @@ public class ConcretizationStrategy {
 				for (Set<Variable> vars : reqs.variables.values()) {
 					if (vars.size() > 0 && locVariables.size() == 0) {
 						if (DEBUG)
-							System.out.println("Not enough variables to assign.");
+							System.out.println("[Debug.log] line 837 of ConcretizationStrategy.java : Not enough variables to assign.");
 						if (global.variables.containsKey(type))
 							for (Variable v : global.variables.get(type))
 								if (!oldName.equals(v.name))
 									locVariables.add(v);
 						if (locVariables.size() == 0) {
 							if (DEBUG)
-								System.out.println("Not enough global variables to assign.");
+								System.out.println("[Debug.log] line 844 of ConcretizationStrategy.java : Not enough global variables to assign.");
 							return null;
 						}
 					}
@@ -879,12 +877,12 @@ public class ConcretizationStrategy {
 					for (Variable var : variables) {
 						if (locVariables.size() == 0) {
 							if (DEBUG)
-								System.out.println("Not enough local variables to assign.");
+								System.out.println("[Debug.log] line 882 of ConcretizationStrategy.java : Not enough local variables to assign.");
 							if (global.variables.containsKey(type))
 								locVariables.addAll(global.variables.get(type));
 							if (locVariables.size() == 0) {
 								if (DEBUG)
-									System.out.println("Not enough global variables to assign.");
+									System.out.println("[Debug.log] line 887 of ConcretizationStrategy.java : Not enough global variables to assign.");
 								return null;
 							}
 						}

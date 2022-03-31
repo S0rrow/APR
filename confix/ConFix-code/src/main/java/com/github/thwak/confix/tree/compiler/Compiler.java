@@ -154,11 +154,11 @@ public class Compiler {
 		command.append(f.getAbsolutePath());
 		String cmd = command.toString();
 		boolean error = !org.eclipse.jdt.core.compiler.batch.BatchCompiler.compile(cmd, outWriter, errWriter, null);
-		if (DEBUG) {
-			System.out.println(cmd);
-			System.out.println(out.toString());
-			System.out.println(err.toString());
-		}
+		//if (DEBUG) {
+			System.out.println("[Debug.log] line 158 of Compiler.java : cmd = "+cmd);
+			System.out.println("[Debug.log] line 159 of Compiler.java : out = "+out.toString());
+			System.out.println("[Debug.log] line 160 of Compiler.java : err = "+err.toString());
+		//}
 		return error;
 	}
 

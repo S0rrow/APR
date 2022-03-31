@@ -213,12 +213,10 @@ public class ConFix {
 					returnCode = patcher.apply(loc, change, info);
 					//TE
 					System.out.println("[Debug.log] line 215 of ConFix.java : Fix Location : "+loc);
-					System.out.println("[Debug.log] line 216 of ConFix.java : Applied Change : ");
-					System.out.println(change);
+					System.out.println("[Debug.log] line 216 of ConFix.java : Applied Change = "+change);
 					System.out.println("[Debug.log] line 218 of ConFix.java : Applied new code");
 					if(info.repairs.size() > 0) System.out.println(info.repairs.get(0).newCode);
-					System.out.println("[Debug.log] line 220 of ConFix.java : Return Code");
-					System.out.println(returnCode);
+					System.out.println("[Debug.log] line 220 of ConFix.java : Return Code = "+returnCode);
 				} catch (Exception e) {
 					if (DEBUG) {
 						System.out.println("Change Application Error.");
@@ -237,20 +235,20 @@ public class ConFix {
 					// break;
 				} else {
 					if (returnCode == Patcher.C_APPLIED) {
-						System.out.println("\nPatch Candidate-" + candidateNum + " is generated.");
+						System.out.println("\n[Debug.log] line 238 of ConFix.java : Patch Candidate-" + candidateNum + " is generated.");
 						if (change != null && !change.equals(oldApplied)) {
 							oldApplied = change;
 							applied++;
 						}
 						String editText = PatchUtils.getEditText(info, pool);
-						if (DEBUG) {
+						//if (DEBUG) {
 							System.out.print(
 									"\n================= 1. Edit Text (Candidate #: " + candidateNum + ") ========\n");
 							System.out.println(editText);
 
 							System.out.print(
 									"\n================= 2. New Source (Candidate #: " + candidateNum + ") =======\n");
-						}
+						//}
 
 						String newSource = patcher.getNewSource();
 						String candidateFileName = storeCandidate(newSource, editText, targetClass, change, candidateNum);
@@ -275,9 +273,10 @@ public class ConFix {
 							break;
 						} else {
 							if (result == COMPILE_ERROR) {
+								System.out.println("[Debug.log] line 276 of ConFix.java : compile error ++");
 								compileError++;
-							} else if (result == TEST_FAILURE || result == TEST_TIMEOUT || result == BREAK_FUNC
-									|| result == TRIGGER_TEST_FAILURE || result == RELEVANT_TEST_FAILURE) {
+							} else if (result == TEST_FAILURE || result == TEST_TIMEOUT || result == BREAK_FUNC || result == TRIGGER_TEST_FAILURE || result == RELEVANT_TEST_FAILURE) {
+								System.out.println("[Debug.log] line 276 of ConFix.java : test error ++");
 								testFailure++;
 							}
 						}
@@ -504,18 +503,15 @@ public class ConFix {
 		try {
 			boolean error = compiler.compile(patchFile, tempDir, compileClassPath, version, version);
 			if (error) {
-				System.out.println(" - no exception Compile error.");
-				System.out.println("\n====================================================\n");
+				System.out.println("[Debug.log] line 507 of ConFix.java : no exception Compile error.");
 				return false;
 			}
 		} catch (Exception e) {
 			// TE
 			e.printStackTrace(System.out);
-			System.out.println(" - Compile error.");
-			System.out.println("\n====================================================\n");
+			System.out.println("[Debug.log] line 513 of ConFix.java : Compile error.");
 			return false;
 		}
-		System.out.println("\n====================================================\n");
 		return true;
 
 	}

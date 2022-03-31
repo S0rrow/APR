@@ -71,15 +71,13 @@ public class Change implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer("	Change Information: \n");
-		// DEBUG
-		System.out.println("[Debug.log] change type: "+type);
+		StringBuffer sb = new StringBuffer("Change Information: \n");
+		System.out.println("[Debug.log] line 75 of Change.java : change type = "+type);
 		switch (type) {
 			case Change.INSERT:
 			case Change.DELETE:
-				sb.append("			type: " + type);
-				sb.append("\n");
-				sb.append("			code: " + code);
+				sb.append("		type: " + type);
+				sb.append("\n		code: " + code);
 				break;
 			case Change.UPDATE:
 				sb.append("			type: " + type);

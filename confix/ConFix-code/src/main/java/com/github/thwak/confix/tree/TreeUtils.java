@@ -349,23 +349,23 @@ public class TreeUtils {
 	}
 
 	public static ASTNode generateNode(Node n, AST ast){
-		System.out.println("=========== Debug.log: generateNode() =========\n\n");
+		System.out.println("[Debug.log] line 352 of TreeUtils.java : generateNode()");
 		ASTNode astNode = ast.createInstance(n.type);
 		if(astNode instanceof SimpleName
 				|| astNode instanceof QualifiedName){
-			System.out.println("Debug.log: instance of simple name or qualified name\n\n");
+			System.out.println("[Debug.log] line 356 of TreeUtils.java : instance of simple name or qualified name");
 			// TE: TODO 더 유연하게 바꾸기	
 			astNode = ast.newName(n.value);
 		}else if(astNode instanceof SimpleType
 				|| astNode instanceof QualifiedType){
-			System.out.println("Debug.log: instance of simple type or qualified type\n\n");
+			System.out.println("[Debug.log] line 361 of TreeUtils.java : instance of simple type or qualified type");
 			astNode = ast.newSimpleType(ast.newName(n.value));
 		}else if(astNode instanceof ArrayType){
 			//Remove the dimension created as default.
-			System.out.println("Debug.log: instance of arraytype\n\n");
+			System.out.println("[Debug.log] line 365 of TreeUtils.java : instance of arraytype");
 			((ArrayType)astNode).dimensions().remove(0);
 		}else{
-			System.out.println("update value of "+astNode.toString());
+			System.out.println("[Debug.log] line 368 of TreeUtils.java : updating value of "+astNode.toString());
 			updateValue(astNode, n);
 		}
 		for(Node child : n.children){
