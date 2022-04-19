@@ -405,7 +405,7 @@ public class ConcretizationStrategy {
 			count--; // Deduct one for an update.
 		}
 		if (reqs.types.size() > materials.types.size() && reqs.genericTypes.size() > count) {
-			System.out.println("		- return false: Not enough types.");
+			System.out.println("[Debug.log] line 408 of ConcretizationStrategy.java : return false: Not enough types.");
 			return false;
 		}
 
@@ -428,7 +428,7 @@ public class ConcretizationStrategy {
 							count--;
 				if (reqs.variables.containsKey(type) && reqs.variables.get(type).size() > count) {
 
-					System.out.println("		- return false: Not enough variables of type - " + type);
+					System.out.println("[Debug.log] line 431 of ConcretizationStrategy.java : return false: Not enough variables of type - " + type);
 					return false;
 				}
 			}
@@ -449,7 +449,7 @@ public class ConcretizationStrategy {
 							count--;
 				if (reqs.fields.containsKey(type) && reqs.fields.get(type).size() > count) {
 
-					System.out.println("		- return false: Not enough fields of type - " + type);
+					System.out.println("[Debug.log] line 452 of ConcretizationStrategy.java : return false: Not enough fields of type - " + type);
 					return false;
 				}
 			}
@@ -466,9 +466,9 @@ public class ConcretizationStrategy {
 					}
 				} else {
 					VariableType newReturnType = MVTManager.generateType(loc.getType());
-					// System.out.println("		variable type : " + newReturnType.toString());
+					System.out.println("[Debug.log] line 469 of ConcretizationStrategy.java : variable type = " + newReturnType.toString());
 					Method m = (Method) reqs.methods.get(absSignature).toArray()[0];
-					// System.out.println("		method : " + m.toString());
+					System.out.println("[Debug.log] line 471 of ConcretizationStrategy.java : method = " + m.toString());
 					Method newMethod = new Method(m.name, m.declaringClass, newReturnType);
 					newMethod.parameters.addAll(m.parameters);
 					absSignature = newMethod.getAbstractSignature();
@@ -476,10 +476,10 @@ public class ConcretizationStrategy {
 			}
 			if (!materials.methods.containsKey(absSignature)) {
 				Set<String> mtd = materials.methods.keySet();
-				// System.out.println("		materials.methods: \n");
+				System.out.println("[Debug.log] line 479 of ConcretizationStrategy.java : materials.methods = ");
 				for (String key : mtd)
-					// System.out.println("		" + key);
-				// System.out.println(" 		- return false : No methods of abstract signature - " + absSignature);
+					System.out.println("[Debug.log] line 481 of ConcretizationStrategy.java : " + key);
+				System.out.println("[Debug.log] line 482 of ConcretizationStrategy.java : return false :: No methods of abstract signature = " + absSignature);
 				return false;
 			} else {
 				count = materials.methods.get(absSignature).size();
@@ -488,13 +488,13 @@ public class ConcretizationStrategy {
 				}
 				if (reqs.methods.containsKey(absSignature) && reqs.methods.get(absSignature).size() > count) {
 
-					// System.out.println( "		- return false: Not enough methods of abstract signature - " + absSignature);
+					System.out.println("[Debug.log] line 491 of ConcretizationStrategy.java : return false :: Not enough methods of abstract signature = " + absSignature);
 					return false;
 				}
 			}
 		}
 
-		// System.out.println("		- return true : This change is acceptable!");
+		System.out.println("[Debug.log] line 497 of ConcretizationStrategy.java : return true :: This change is acceptable!");
 		return true;
 	}
 

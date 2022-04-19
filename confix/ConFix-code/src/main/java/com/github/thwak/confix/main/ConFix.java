@@ -218,14 +218,12 @@ public class ConFix {
 					if(info.repairs.size() > 0) System.out.println(info.repairs.get(0).newCode);
 					System.out.println("[Debug.log] line 220 of ConFix.java : Return Code = "+returnCode);
 				} catch (Exception e) {
-					if (DEBUG) {
-						System.out.println("Change Application Error.");
-						System.out.println("Fix Location");
-						System.out.println(loc);
-						System.out.println("Applied Change");
-						System.out.println(change);
-						e.printStackTrace();
-					}
+					System.out.println("[Debug.log] line 221 of ConFix.java : Exception = "+e);
+					System.out.println("[Debug.log] line 222 of ConFix.java : Change Application Error.");
+					System.out.println("[Debug.log] line 223 of ConFix.java : Fix Location");
+					System.out.println("[Debug.log] line 224 of ConFix.java :"+ loc);
+					System.out.println("[Debug.log] line 225 of ConFix.java : Applied Change");
+					System.out.println("[Debug.log] line 226 of ConFix.java :"+ change);
 					returnCode = Patcher.C_NOT_APPLIED;
 					// break;
 				}
@@ -331,15 +329,15 @@ public class ConFix {
 			
 			// define the current return code
 			if(returnCode == Patcher.C_APPLIED) {
-				System.out.println("[Debug.log] : Patcher.C_APPLIED");
+				System.out.println("[Debug.log] line 334 of ConFix.java: Patcher.C_APPLIED");
 			} else if(returnCode == Patcher.C_NO_FIXLOC) {
-				System.out.println("[Debug.log] : Patcher.C_NO_FIXLOC");
+				System.out.println("[Debug.log] line 336 of ConFix.java: Patcher.C_NO_FIXLOC");
 			} else if(returnCode == Patcher.C_NOT_INST) {
-				System.out.println("[Debug.log] : Patcher.C_NOT_INST");
+				System.out.println("[Debug.log] line 338 of ConFix.java: Patcher.C_NOT_INST");
 			} else if(returnCode == Patcher.C_NOT_APPLIED) {
-				System.out.println("[Debug.log] : Patcher.C_NOT_APPLIED");
+				System.out.println("[Debug.log] line 340 of ConFix.java: Patcher.C_NOT_APPLIED");
 			} else if(returnCode == Patcher.C_NO_CHANGE) {
-				System.out.println("[Debug.log] : Patcher.C_NO_CHANGE");
+				System.out.println("[Debug.log] line 342 of ConFix.java: Patcher.C_NO_CHANGE");
 			}
 
 			// 여기서 success 없애면 다른 change로도 계속해서 패치 생성 시도해볼 수 있음

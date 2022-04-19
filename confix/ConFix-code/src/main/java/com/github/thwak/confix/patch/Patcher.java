@@ -109,10 +109,10 @@ public class Patcher {
 			return returnCode;
 		} catch (Exception e) {
 			e.printStackTrace();
-			//System.out.println("Error occurred while applying change ");
-			//System.out.println(change);
-			//System.out.println("to");
-			//System.out.println(loc);
+			System.out.println("[Debug.log] line 112 of Patcher.java: Error occurred while applying change ");
+			System.out.println("[Debug.log] line 112 of Patcher.java: change = "+change);
+			System.out.println("[Debug.log] line 112 of Patcher.java: to");
+			System.out.println("[Debug.log] line 112 of Patcher.java: loc ="+loc);
 			return C_NOT_APPLIED;
 		}
 	}
@@ -138,10 +138,10 @@ public class Patcher {
 					returnCode = C_NOT_APPLIED;
 				}
 				//DEBUG
-				System.out.println("[Debug.log] editHash equals locHash ? : "+editHash.equals(locHash));
-				System.out.println("[Debug.log] editHash : "+editHash);
-				System.out.println("[Debug.log] locHash : "+locHash);
-				System.out.println("[Debug.log] returnCode = "+returnCode);
+				System.out.println("[Debug.log] line 141 of Patcher.java : editHash equals locHash ? : "+editHash.equals(locHash));
+				System.out.println("[Debug.log] line 142 of Patcher.java : editHash : "+editHash);
+				System.out.println("[Debug.log] line 143 of Patcher.java : locHash : "+locHash);
+				System.out.println("[Debug.log] line 144 of Patcher.java : returnCode = "+returnCode);
 				break;
 			case Change.INSERT:
 				if (cStrategy.instCheck(change, loc) && change.node.desc != null) {
@@ -196,27 +196,23 @@ public class Patcher {
 				}
 				break;
 			case Change.REPLACE:
-				System.out.println("\n\n======= Start Applying Replace operation ======");
+				//TO DO
+				System.out.println("[Debug.log] line 199 of Patcher.java : executing REPLACE"); // DEBUG
 				editHash = TreeUtils.getTypeHash(change.node);
 				locHash = TreeUtils.getTypeHash(loc.node);
-				System.out.println("	1. Edit Hash: " + editHash);
-				System.out.println("	2. Location Hash: " + locHash);
-
-				// TE 여기 조지기!!!!!
-				// lalalalalalalala
-				// 위치의 context, 즉 hash가 적용하려는 change가 요구하는 context, 즉 hash와 일치하는지 판단하는 부분
+				System.out.println("[Debug.log] line 202 of Patcher.java : 1. Edit Hash: " + editHash);
+				System.out.println("[Debug.log] line 203 of Patcher.java : 2. Location Hash: " + locHash);
 				if (editHash.equals(locHash) && cStrategy.instCheck(change, loc)) {
 					ASTNode astNode = cStrategy.instantiate(change, loc, info);
-					System.out.println("	3. Patch Info(collected methods): " + info.cMethods.size());
+					System.out.println("[Debug.log] line 210 of Patcher.java : 3. Patch Info(collected methods): " + info.cMethods.size());
 					info.cMethods.forEach(method -> {
-					System.out.println(" method: " + method);
+					System.out.println("[Debug.log] line 212 of Patcher.java : method = " + method);
 					});
 
 					if (astNode == null) {
-						System.out.println("======= End Applying Replace operation with code C_NOT_INST\n\n");
+						System.out.println("[Debug.log] line 216 of Patcher.java : result C_NOT_INST due to null ASTNode");
 						return C_NOT_INST;
 					}
-
 					RepairAction repair = new RepairAction(Change.REPLACE, loc, getCode(loc.node), astNode.toString(),
 							change);
 					replace(loc, astNode);
@@ -224,18 +220,17 @@ public class Patcher {
 					returnCode = C_APPLIED;
 					System.out.println("[Debug.log] line 225 of Patcher.java : repair applied on case replace");
 				} else {
+					System.out.println("[Debug.log] line 227 of Patcher.java : returncode = C_NOT_APPLIED");
 					returnCode = C_NOT_APPLIED;
 				}
 				break;
 		}
 		if (returnCode == C_APPLIED) {
-			//System.out.println("======= End Applying Replace operation with code C_APPLIED\n\n");
+			System.out.println("[Debug.log] line 232 of Patcher.java : replace success");
 			addImportDecls(change);
 		} else if (returnCode == C_NOT_APPLIED) {
-			//System.out.println("======= End Applying Replace operation with code C_NOT_APPLIED\n\n");
+			System.out.println("[Debug.log] line 232 of Patcher.java : replace failed, returned with code -1");
 		}
-
-		//System.out.println("======= End Applying Replace operation with code -1 ======\n\n");
 		return returnCode;
 	}
 

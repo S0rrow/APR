@@ -45,6 +45,7 @@ public class Converter {
 	// 여기서 filter 수정홰서 튜닝 가능할듯
 	public static EditScript filter(EditScript editScript){
 		EditScript filtered = new EditScript();
+		//System.out.println("[Debug.log] line 48 of Converter.java: added trigger to replace edit operation if move+insert");
 		for(EditOp op : editScript.getEditOps()){
 			//Don't collect changes related to import declarations and new features.
 			if(op.getNode().getType() == ASTNode.IMPORT_DECLARATION
@@ -68,10 +69,11 @@ public class Converter {
 						continue;
 				}
 				// TE 
-			} else if(op.getType().equals(Change.MOVE) ){ // || op.getType().equals(Change.DELETE)) {
+			} //else if(op.getType().equals(Change.MOVE) || op.getType().equals(Change.DELETE)) {
+				System.out.println("[Debug.log] line 74 of Converter.java: originally discard delete or move operations");
 				//Discard delete / move operations.
-				continue;
-			}
+				//continue;
+			//}
 			filtered.addEditOp(op);
 		}
 		return filtered;

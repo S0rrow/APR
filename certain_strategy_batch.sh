@@ -1,9 +1,9 @@
 #!/bin/bash
-# patchStrategy = "tested-first"
-# concretizationStrategy = "tcvfl"
+# patchStrategy = "flfreq"
+# concretizationStrategy = "hash-match"
 
-for patchStrategy in "tested-first"; do
-    for concretizationStrategy in "tcvfl"; do
+for patchStrategy in "flfreq"; do
+    for concretizationStrategy in "hash-match"; do
 
         # cp confix/properties/confix.properties "confix/properties/confix-$patchStrategy-$concretizationStrategy.properties"
         # echo "patch.strategy=$patchStrategy" >> "confix/properties/confix-$patchStrategy-$concretizationStrategy.properties"

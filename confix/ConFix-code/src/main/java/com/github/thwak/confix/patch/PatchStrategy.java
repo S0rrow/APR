@@ -264,7 +264,7 @@ public class PatchStrategy {
 					String source = PatchUtils.loadSource(sourceDir, cl.className);
 					System.out.println("[Debug.log] line 265 of PatchStrategy.java : cKey- " + cStrategyKey);
 					System.out.println("[Debug.log] line 266 of PatchStrategy.java : sourceDir- " + sourceDir);
-					System.out.println("[Debug.log] line 267 of PatchStrategy.java : source- " + source);
+					//System.out.println("[Debug.log] line 267 of PatchStrategy.java : source- " + source);
 					ConcretizationStrategy cStrategy = StrategyFactory.getConcretizationStrategy(cStrategyKey, manager,
 							cl.className, sourceDir, r);
 					Patcher patcher = new Patcher(cl.className, source, compileClassPathEntries,

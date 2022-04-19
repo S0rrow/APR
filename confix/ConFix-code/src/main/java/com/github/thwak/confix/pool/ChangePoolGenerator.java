@@ -20,18 +20,13 @@ import tree.TreeBuilder;
 
 public class ChangePoolGenerator {
 	public ChangePool pool;
-	public List<Integer> changeList = new ArrayList<Integer>();
-	public List<String> postfixList = new ArrayList<String>(Arrays.asList("++", "--"));
-	public List<String> infixList = new ArrayList<String>(Arrays.asList("==", "!=", "<", "<=", ">", ">=", "&&", "||", "+", "-", "*", "%", "/", "+=", "-=")) ;
-	public List<String> prefixList = new ArrayList<String>(Arrays.asList("!", "++", "--"));
-	public List<String> fixList;
-
+	
 	public ChangePoolGenerator() {
 		pool = new ChangePool();
 	}
 
 	public void collect(Script script) {
-		// System.out.println(script.toString()) ;
+		System.out.println("[Debug.log] line 34 of ChangePoolGenerator: script = "+script.toString());
 		// TODO: hard coding된 fix list들을 제거하고 실행해보기
 		Integer newChangeHash;
 		Change revChange;
@@ -97,6 +92,7 @@ public class ChangePoolGenerator {
 					System.out.println("Tree is null");
 
 				EditScript editScript = ScriptGenerator.generateScript(before, after);
+				System.out.println("[Debug.log] line 95 of ChangePoolGenerator: generated script difference between before and after tree through LAS :: editScript = "+editScript.toString());
 				// Convert EditScript to Script.
 				editScript = Converter.filter(editScript);
 				EditScript combined = Converter.combineEditOps(editScript);

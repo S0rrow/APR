@@ -1,4 +1,4 @@
-package change.vector.collector;
+ package change.vector.collector;
 
 import java.io.BufferedWriter;
 import java.io.File;
