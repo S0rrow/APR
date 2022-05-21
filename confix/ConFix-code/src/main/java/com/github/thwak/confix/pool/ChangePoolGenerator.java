@@ -63,6 +63,10 @@ public class ChangePoolGenerator {
 	}
 
 	public void collect(List<File> bugFiles, List<File> cleanFiles, String[] compileClassPathEntries, String[] sourcePath) {
+		collect(bugFiles, cleanFiles, compileClassPathEntries, sourcePath, false);
+	}
+
+	public void collect(List<File> bugFiles, List<File> cleanFiles, String[] compileClassPathEntries, String[] sourcePath, boolean discardDelMov) {
 
 		System.out.println("[Debug.log] line 72 of ChangePoolGenerator.java: bugFiles size: "+bugFiles.size());
 		System.out.println("[Debug.log] line 73 of ChangePoolGenerator.java: cleanFiles size: "+cleanFiles.size());
@@ -78,24 +82,14 @@ public class ChangePoolGenerator {
 				// Generate EditScript from before and after.
 				String oldCode = IOUtils.readFile(bugFiles.get(i));
 				String newCode = IOUtils.readFile(cleanFiles.get(i));
-
-				// System.out.println("First letter of old code: "+oldCode.charAt(0));
-				// System.out.println("First letter of new code: "+newCode.charAt(0));
-				//String[] srcPathList = new String [1];
-				//srcPathList[0] = sourcePathEntries;
-
 				Tree before = TreeBuilder.buildTreeFromFile(bugFiles.get(i),compileClassPathEntries,sourcePath);
 				Tree after = TreeBuilder.buildTreeFromFile(cleanFiles.get(i),compileClassPathEntries,sourcePath);
-
-
-				if(before == null || after == null)
-					System.out.println("Tree is null");
-
 				EditScript editScript = ScriptGenerator.generateScript(before, after);
 				System.out.println("[Debug.log] line 95 of ChangePoolGenerator: generated script difference between before and after tree through LAS :: editScript = "+editScript.toString());
 				// Convert EditScript to Script.
 				editScript = Converter.filter(editScript);
 				EditScript combined = Converter.combineEditOps(editScript);
+				if(discardDelMov) combined = Converter.filterRemainingDelMov(combined);
 				Script script = Converter.convert("0", combined, oldCode, newCode);
 				collect(script);
 			}

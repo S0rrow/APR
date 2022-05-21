@@ -301,7 +301,7 @@ def run_train(X_train, Y_train, train):
     ##########################################################################
     # Model Training
 
-    # training autoencoderㅇ
+    # training autoencoder
     autoencoder = Model(input_commit, decoded)
     autoencoder.compile(loss='binary_crossentropy', optimizer='adadelta')
 

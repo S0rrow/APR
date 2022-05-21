@@ -41,11 +41,8 @@ public class Converter {
 		return polished;
 	}
 
-	//TE 
-	// 여기서 filter 수정홰서 튜닝 가능할듯
 	public static EditScript filter(EditScript editScript){
 		EditScript filtered = new EditScript();
-		//System.out.println("[Debug.log] line 48 of Converter.java: added trigger to replace edit operation if move+insert");
 		for(EditOp op : editScript.getEditOps()){
 			//Don't collect changes related to import declarations and new features.
 			if(op.getNode().getType() == ASTNode.IMPORT_DECLARATION
@@ -68,12 +65,20 @@ public class Converter {
 							|| loc.equals(EnumConstantDeclaration.NAME_PROPERTY))
 						continue;
 				}
-				// TE 
-			} //else if(op.getType().equals(Change.MOVE) || op.getType().equals(Change.DELETE)) {
-				System.out.println("[Debug.log] line 74 of Converter.java: originally discard delete or move operations");
+			}
+			filtered.addEditOp(op);
+		}
+		return filtered;
+	}
+
+	public static EditScript filterRemainingDelMov(EditScript editScript){
+		System.out.println("[Debug]: line 75 of Converter.java : filtering remaining delete and move operations from edit script");
+		EditScript filtered = new EditScript();
+		for(EditOp op : editScript.getEditOps()){
+			if(op.getType().equals(Change.MOVE) || op.getType().equals(Change.DELETE)) {
 				//Discard delete / move operations.
-				//continue;
-			//}
+				continue;
+			}
 			filtered.addEditOp(op);
 		}
 		return filtered;

@@ -47,16 +47,21 @@ def prepare(root, hash_id, identifier, bug_id):
         if exit_code != 0:
             raise AbnormalExitException
 
-        bfic = pd.read_csv(f'{target_dir}/outputs/commit_collector/BFIC.csv', names = ['Project', 'D4J ID', 'Faulty file path', 'Faulty line', 'FIC_sha', 'BFIC_sha']).values[1]
-        assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}b -w buggy") == 0, "checkout for buggy project failed"
-        assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}f -w fixed") == 0, "checkout for fixed project failed"
+        #bfic = pd.read_csv(f'{target_dir}/outputs/commit_collector/BFIC.csv', names = ['Project', 'D4J ID', 'Faulty file path', 'Faulty line', 'FIC_sha', 'BFIC_sha']).values[1]
+        #assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}b -w buggy") == 0, "checkout for buggy project failed"
+        #assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}f -w fixed") == 0, "checkout for fixed project failed"
+
+        #TODO
+        # connect ACC in here
 
         assert os.system(f"cd {target_dir}; mkdir -p outputs; mkdir -p outputs/prepare_pool_source") == 0, "what?"
-        assert os.system(f"cp {target_dir}/buggy/{bfic[2]} {target_dir}/outputs/prepare_pool_source/{identifier}_rank-1_old.java") == 0, "copying buggy file failed"
-        assert os.system(f"cp {target_dir}/fixed/{bfic[2]} {target_dir}/outputs/prepare_pool_source/{identifier}_rank-1_new.java") == 0, "copying fixed file failed"
+        assert os.system(f"cd {root}/LCE\n./run.sh {hash_id} {identifier}-{bug_id}") == 0, 'executing run.sh failed'
 
-        os.system(f"rm -rf {target_dir}/buggy")
-        os.system(f"rm -rf {target_dir}/fixed")
+        #assert os.system(f"cp {target_dir}/buggy/{bfic[2]} {target_dir}/outputs/prepare_pool_source/{identifier}_rank-1_old.java") == 0, "copying buggy file failed"
+        #assert os.system(f"cp {target_dir}/fixed/{bfic[2]} {target_dir}/outputs/prepare_pool_source/{identifier}_rank-1_new.java") == 0, "copying fixed file failed"
+
+        #os.system(f"rm -rf {target_dir}/buggy")
+        #os.system(f"rm -rf {target_dir}/fixed")
         
         assert os.system(f"cd {target_dir}; touch done") == 0, "You cannot even make dummy file?"
 

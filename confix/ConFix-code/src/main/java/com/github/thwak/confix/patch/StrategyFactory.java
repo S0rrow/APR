@@ -19,7 +19,7 @@ public class StrategyFactory {
 		key = key.toLowerCase();
 		System.out.println("[Debug.log] line 21 of StrategyFactory.java : key = " + key);
 		switch (key) {
-			case "flfreq":
+			case "flfreq": 
 				strategy = new FLFreqPatchStrategy(coverage, pool, pool.getIdentifier(), r, flMetric, cStrategyKey,
 						sourceDir, compileClassPathEntries);
 				break;
@@ -80,9 +80,9 @@ public class StrategyFactory {
 		System.out.println("[Debug.log] line 82 of StrategyFactory.java : concretization strategy key = "+key);
 		switch (key) {
 			case "tcvfl":
-				strategy = new TCVFLStrategy(info, r);
+				strategy = new TCVFLStrategy(info, r); //???
 				break;
-			case "hash-match":
+			case "hash-match": // find code fragments with the same structure by comparing node type hashes
 				if (codePools.containsKey(className)) {
 					strategy = new HashMatchStrategy(srcDir, codePools.get(className), pkgCodePools.get(packageName),
 							r);
@@ -90,11 +90,11 @@ public class StrategyFactory {
 					strategy = new HashMatchStrategy(srcDir, r);
 				}
 				break;
-			case "neighbor":
+			case "neighbor": // considers  identifiers  more  closelyrelated to the current fix location
 				System.out.println("we are using neighbor");
 				strategy = new NeighborFirstStrategy(r);
 				break;
-			case "tc":
+			case "tc": // assigns  concrete  methods  to  abstract  methods first
 			default:
 				strategy = new ConcretizationStrategy(r); // Default Type-compatible strategy
 		}
