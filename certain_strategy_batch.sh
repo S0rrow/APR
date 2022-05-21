@@ -2,6 +2,17 @@
 # patchStrategy = "flfreq"
 # concretizationStrategy = "hash-match"
 
+# build ACC as build
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+cd AllChangeCollector
+./gradlew clean
+./gradlew build
+cd app/build/distributions/
+unzip app.zip
+cd ~/leshen/APR
+cp AllChangeCollector/app/build/distributions/app/bin/app AllChangeCollector/app
+# copy executable built into AllChangeCollector
+
 for patchStrategy in "flfreq"; do
     for concretizationStrategy in "hash-match"; do
 
