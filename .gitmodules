@@ -1,3 +1,6 @@
 [submodule "LCE"]
 	path = LCE
 	url = https://github.com/S0rrow/fv4202
+[submodule "AllChangeCollector"]
+	path = AllChangeCollector
+	url = https://github.com/S0rrow/AllChangeCollector
