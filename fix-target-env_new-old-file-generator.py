@@ -4,7 +4,7 @@ import os
 import datetime as dt
 import pandas as pd
 import csv
-
+from subprocess import call
 from colorama import Fore, Back, Style # Colorized output
 
 
@@ -42,13 +42,14 @@ def prepare(root, hash_id, identifier, bug_id, loadD4J=True):
     try:
         target_dir = f"{root}/target/{hash_id}_{identifier}-{bug_id}"
 
-        executing_command = f"python3 ./pool/runner_web/commit_collector_web.py -d true -h {hash_id}_{identifier}-{bug_id} -i {identifier}-{bug_id}"
+        executing_command = f"python3 -u /home/codemodel/leshen/APR/pool/runner_web/commit_collector_web.py -d true -h {hash_id}_{identifier}-{bug_id} -i {identifier}-{bug_id}"
         exit_code = run_command(executing_command)
         if exit_code != 0:
             raise AbnormalExitException
 
         bfic = pd.read_csv(f'{target_dir}/outputs/commit_collector/BFIC.csv', names = ['Project', 'D4J ID', 'Faulty file path', 'Faulty line', 'FIC_sha', 'BFIC_sha']).values[1]
-        if(loadD4J) assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}b -w buggy") == 0, "checkout for buggy project failed"
+        if loadD4J:
+            assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}b -w buggy") == 0, "checkout for buggy project failed"
         #assert os.system(f"cd {target_dir}; defects4j checkout -p {identifier} -v {bug_id}f -w fixed") == 0, "checkout for fixed project failed"
 
        
@@ -56,12 +57,15 @@ def prepare(root, hash_id, identifier, bug_id, loadD4J=True):
         assert os.system(f"cd {target_dir}; mkdir -p outputs; mkdir -p outputs/prepare_pool_source") == 0, "what?"
         # TODO
         # connect ACC in here
-        assert os.system(f"cd {root}/LCE\n./run.sh {hash_id} {identifier}-{bug_id}") == 0, 'executing run.sh failed'
+        assert os.system(f"cd ~/leshen/APR/AllChangeCollector\npython3 collect.py -f {bfic[2]} -c {bfic[4]} -p {identifier}-{bug_id} -g {target_dir}/{identifier}") == 0, 'executing ACC failed'
+        assert os.system(f"cd {root}/LCE\n./run.sh {hash_id} {identifier}-{bug_id}") == 0, 'executing LCE failed'
 
-        if(loadD4J) assert os.system(f"cp {target_dir}/buggy/{bfic[2]} {root}/LCE/target/targetVector.java") == 0, "copying buggy file failed"
+        if loadD4J:
+            assert os.system(f"cp {target_dir}/buggy/{bfic[2]} {root}/LCE/target/targetVector.java") == 0, "copying buggy file failed"
         #assert os.system(f"cp {target_dir}/fixed/{bfic[2]} {target_dir}/outputs/prepare_pool_source/{identifier}_rank-1_new.java") == 0, "copying fixed file failed"
 
-        if(loadD4J) os.system(f"rm -rf {target_dir}/buggy")
+        if loadD4J:
+            os.system(f"rm -rf {target_dir}/buggy")
         #os.system(f"rm -rf {target_dir}/fixed")
         
         assert os.system(f"cd {target_dir}; touch done") == 0, "You cannot even make dummy file?"
@@ -111,7 +115,7 @@ def main(args):
             print_error(result_str)
             fails += 1
 
-        os.system(f"echo \"{result_str}\" >> ./target/log_{hash_id}.txt")
+        os.system(f"echo \"{result_str}\" >> /home/codemodel/leshen/APR/target/log_{hash_id}.txt")
 
 
     whole_end = dt.datetime.now()
@@ -121,7 +125,7 @@ def main(args):
     os.system(f"echo \"Batch pool source preparation finished. {successes} succeeded, {fails} failed.\" >> ./target/log_{hash_id}.txt")
 
     print_complete(f"Total Elapsed Time : {elapsed_time}")
-    os.system(f"echo \"Total Elapsed Time : {elapsed_time}\" >> ./target/log_{hash_id}.txt")
+    os.system(f"echo \"Total Elapsed Time : {elapsed_time}\" >> /home/codemodel/leshen/APR/target/log_{hash_id}.txt")
 
 
 if __name__ == '__main__':
